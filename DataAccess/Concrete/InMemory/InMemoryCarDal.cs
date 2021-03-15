@@ -1,7 +1,9 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.InMemory
 {
@@ -32,14 +34,34 @@ namespace DataAccess.Concrete.InMemory
             _carList.Remove(carToDelete);
         }
 
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            return _carList.AsQueryable().SingleOrDefault(filter);
+        }
+
         public List<Car> GetAll()
         {
             return _carList;
         }
 
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            return filter == null ? _carList : _carList.AsQueryable().Where(filter).ToList();
+        }
+
         public Car GetById(int carId)
         {
             return _carList.SingleOrDefault(c => c.Id == carId);
+        }
+
+        public List<Car> GetCarsByBrandId(int brandId)
+        {
+            return _carList.Where(c => c.Id == brandId).ToList();
+        }
+
+        public List<Car> GetCarsByColorId(int colorId)
+        {
+            return _carList.Where(c => c.Id == colorId).ToList();
         }
 
         public void Update(Car car)
