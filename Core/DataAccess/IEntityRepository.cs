@@ -1,15 +1,15 @@
-﻿using Entities.Abstract;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace DataAccess.Abstract
-{
+namespace Core.DataAccess
+{    
     //Generic Constraint
     //Referans T:class, int geçilemez
     //IEntity veya IEntity implemente eden nesne
     //new() newlenebilir olmalıdır.
-    public interface IEntityRepository<T> where T:class,IEntity,new()
+    public interface IEntityRepository<T> where T : class, IEntity, new()
     {
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
         void Add(T entity);

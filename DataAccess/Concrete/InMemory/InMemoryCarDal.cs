@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,10 +40,7 @@ namespace DataAccess.Concrete.InMemory
             return _carList.AsQueryable().SingleOrDefault(filter);
         }
 
-        public List<Car> GetAll()
-        {
-            return _carList;
-        }
+     
 
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
@@ -52,6 +50,11 @@ namespace DataAccess.Concrete.InMemory
         public Car GetById(int carId)
         {
             return _carList.SingleOrDefault(c => c.Id == carId);
+        }
+
+        public List<CarDetailDTO> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public List<Car> GetCarsByBrandId(int brandId)
