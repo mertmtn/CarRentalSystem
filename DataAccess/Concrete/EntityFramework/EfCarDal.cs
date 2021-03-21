@@ -4,7 +4,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System.Collections.Generic;
 using System.Linq;
-
+ 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalDbContext>, ICarDal
