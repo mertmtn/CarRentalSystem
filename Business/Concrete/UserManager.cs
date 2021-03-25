@@ -1,9 +1,9 @@
 ﻿using Business.Abstract;
 using Business.Constants.Messages;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Success;
-using DataAccess.Abstract;
-using Entities.Concrete;
+using DataAccess.Abstract; 
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -22,6 +22,16 @@ namespace Business.Concrete
             return new SuccessResult(UserMessage.UserAddedSuccessfully);
         }
 
+        public IDataResult<User> GetByMail(string email)
+        {           
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
+        }
+
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
+        }
+
         public IResult Delete(User user)
         {
             _userDal.Delete(user);
@@ -38,11 +48,7 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(c => c.Id == userId));
         }
 
-        public IResult UpdatePassword(User user)
-        {
-            _userDal.UpdateUserPassword(user);
-            return new SuccessResult(UserMessage.UserUpdatedInfoSuccessfully);
-        }
+
 
         public IResult UpdateUserInfo(User user)
         {

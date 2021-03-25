@@ -1,11 +1,13 @@
 ﻿using Core.DataAccess;
-using Entities.Concrete; 
+using Core.Entities.Concrete;
+ 
+using System.Collections.Generic;
 
 namespace DataAccess.Abstract
 {
     public interface IUserDal : IEntityRepository<User>
     {
-        void UpdateUserInfo(User user);
-        void UpdateUserPassword(User user);
+        List<OperationClaim> GetClaims(User user);
+        void UpdateUserInfo(User user); 
     }
 }

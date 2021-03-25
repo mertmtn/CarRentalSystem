@@ -1,6 +1,8 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using DataAccess.Abstract;
-using Entities.Concrete;
+using System.Linq;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -12,21 +14,25 @@ namespace DataAccess.Concrete.EntityFramework
             using (var context = new CarRentalDbContext())
             {
                 context.Entry(user).State = EntityState.Modified;
-                context.Entry(user).Property(x => x.Password).IsModified = false;
+                context.Entry(user).Property(x => x.PasswordHash).IsModified = false;
+                context.Entry(user).Property(x => x.PasswordSalt).IsModified = false;
                 context.SaveChanges();
             }
         }
 
-        public void UpdateUserPassword(User user)
+         
+
+        public List<OperationClaim> GetClaims(User user)
         {
             using (var context = new CarRentalDbContext())
             {
-                context.Entry(user).State = EntityState.Modified;
-                context.Entry(user).Property(x => x.FirstName).IsModified = false;
-                context.Entry(user).Property(x => x.LastName).IsModified = false;
-                context.Entry(user).Property(x => x.Id).IsModified = false;
-                context.Entry(user).Property(x => x.Email).IsModified = false; 
-                context.SaveChanges();
+                var result = from operationClaim in context.OperationClaim
+                             join userOperationClaim in context.UserOperationClaims
+                                 on operationClaim.Id equals userOperationClaim.OperationClaimId
+                             where userOperationClaim.UserId == user.Id
+                             select new OperationClaim { Id = operationClaim.Id, Name = operationClaim.Name };
+                return result.ToList();
+
             }
         }
     }

@@ -47,6 +47,7 @@ namespace Business.Concrete
             return new SuccessResult(CarMessage.CarDeletedSuccessfully);
         }
 
+        
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>> (_carDal.GetAll());

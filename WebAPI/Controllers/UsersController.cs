@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
+using Core.Entities.Concrete; 
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -31,20 +31,12 @@ namespace WebAPI.Controllers
 
         [HttpPost("Add")]
         public IActionResult Add(User user)
-        {
-            //TODO: İş kurallarında kullanıcı şifresi hashlenecek
-            //TODO: Kullanıcı şifresi bir büyük harf bür küçük harf sayı içerecek ve en az 8 karakter olacak
-
+        { 
             var result = _userService.Add(user);
             return StatusCode(result.Success ? 200 : 400, result);
         }
 
-        [HttpPost("UpdatePassword")]
-        public IActionResult UpdatePassword(User user)
-        {
-            var result = _userService.UpdatePassword(user);
-            return StatusCode(result.Success ? 200 : 400, result);
-        }
+ 
 
         [HttpPost("UpdateUserInfo")]
         public IActionResult UpdateUserInfo(User user)
@@ -59,8 +51,5 @@ namespace WebAPI.Controllers
             var result = _userService.Delete(user);
             return StatusCode(result.Success ? 200 : 400, result);
         }
-
-
-
     }
 }
