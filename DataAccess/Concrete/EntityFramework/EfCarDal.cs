@@ -21,9 +21,11 @@ namespace DataAccess.Concrete.EntityFramework
                                 INNER JOIN Color clr ON c.ColorId=clr.Id  
                  */
                 var result = from c in context.Car
+                             
                              join b in context.Brand on c.BrandId equals b.Id
                              join clr in context.Color on c.ColorId equals clr.Id
-                             select new CarDetailDTO { BrandName = b.Name, CarName = c.Name, ColorName = clr.Name, DailyPrice = c.DailyPrice };
+                             select new CarDetailDTO { BrandName = b.Name, CarName = c.Name, ColorName = clr.Name, DailyPrice = c.DailyPrice,
+                                 CarImageList= context.CarImage.Where(x=>x.CarId==c.Id).ToList() };
 
                 return result.ToList();
             }
