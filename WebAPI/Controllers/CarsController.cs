@@ -50,7 +50,27 @@ namespace WebAPI.Controllers
             var result = _carService.GetCarDetails();
             return StatusCode(result.Success ? 200 : 400, result);
         }
+        [HttpGet("GetCarDetailsByBrandId")]
+        public IActionResult GetCarDetailsByBrandId(int brandId)
+        {
+            var result = _carService.GetCarDetailsByBrandId(brandId);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
 
+        [HttpGet("GetCarDetailsByColorId")]
+        public IActionResult GetCarDetailsByColorId(int colorId)
+        {
+            var result = _carService.GetCarDetailsByColorId(colorId);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+
+
+        [HttpGet("GetCarDetailByCarId")]
+        public IActionResult GetCarDetailByCarId(int carId)
+        {
+            var result = _carService.GetCarDetailByCarId(carId);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
         [HttpPost("Add")]
         public IActionResult Add(Car car)
         {

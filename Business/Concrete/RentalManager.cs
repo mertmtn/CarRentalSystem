@@ -21,7 +21,7 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
-        [SecuredOperation("rental.add")]
+        //[SecuredOperation("rental.add")]
         public IResult Add(Rental rental)
         {
             var existingRental = _rentalDal.Get(r => r.CarId == rental.CarId && r.ReturnDate == null);
