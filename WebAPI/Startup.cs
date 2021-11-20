@@ -14,17 +14,22 @@ using Core.DependencyResolvers;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
+using System;
 
 namespace WebAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _hostingEnv;
+        public IConfiguration Configuration { get; }
+
+        public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             Configuration = configuration;
+            _hostingEnv = env;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -56,6 +61,12 @@ namespace WebAPI
                 new CoreModule(),
             });
 
+            services.AddSwaggerGen(c =>
+            {
+
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarRentalSystem.API", Version = "v1" });
+                c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml", includeControllerXmlComments: true);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +76,7 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.ConfigureCustomExceptionMiddleware();
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200")
                        .AllowAnyHeader()
@@ -78,6 +90,8 @@ namespace WebAPI
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
                 RequestPath = new PathString("/Resources")
             });
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRentalSystem.API v1"));
             app.UseRouting();
 
             //Middleware
