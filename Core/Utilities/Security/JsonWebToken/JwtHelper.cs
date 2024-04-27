@@ -5,21 +5,20 @@ using System.Linq;
 using System.Security.Claims; 
 using Core.Entities.Concrete;
 using Core.Extensions;
-using Core.Utilities.Security.Encryription;
-using Microsoft.Extensions.Configuration;
+using Core.Utilities.Security.Encryription; 
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Utilities.Security.JsonWebToken
 {
     public class JwtHelper : ITokenHelper
     {
-        public IConfiguration Configuration { get; }
+       
         private TokenOptions _tokenOptions;
         private DateTime _accessTokenExpiration;
-        public JwtHelper(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+        public JwtHelper(IOptions<TokenOptions> options)
+        { 
+            _tokenOptions = options.Value;
 
         }
         public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)

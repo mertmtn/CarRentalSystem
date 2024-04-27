@@ -1,21 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <Folder Include="Concrete\Dapper\" />
+    <Compile Remove="Concrete\Dapper\**" />
+    <EmbeddedResource Remove="Concrete\Dapper\**" />
+    <None Remove="Concrete\Dapper\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+  </ItemGroup>
 </Project>

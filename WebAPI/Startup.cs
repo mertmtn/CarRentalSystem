@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using System;
+using Autofac.Core;
 
 namespace WebAPI
 {
@@ -39,7 +40,7 @@ namespace WebAPI
             services.AddCors();
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-
+            services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -55,7 +56,7 @@ namespace WebAPI
                     };
                 });
 
-
+            
             services.AddDependencyResolvers(new ICoreModule[]
             {
                 new CoreModule(),
@@ -78,7 +79,7 @@ namespace WebAPI
             }
 
             app.ConfigureCustomExceptionMiddleware();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200")
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200", "http://localhost:5173", "http://127.0.0.1:5173")
                        .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
